@@ -1,0 +1,10 @@
+# Il canon (le regole del cervello) ha un proprietario.
+# Ogni PR che tocca canon/ richiede la sua review.
+#
+# Sostituisci {{OWNER_CANON_GITHUB}} con l'handle GitHub di chi possiede il canon
+# (es. @nome-utente). La persona deve avere accesso in scrittura al repo. Se la
+# review passa a un gruppo, usa un team dell'organizzazione (es. @<org>/leadership).
+/canon/  {{OWNER_CANON_GITHUB}}
+
+# Facoltativo: le regole di ogni team possono avere il proprio revisore.
+# /canon/team/vendite.md  @<handle-lead-vendite>

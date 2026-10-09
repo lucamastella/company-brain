@@ -1,0 +1,19 @@
+# Perimetro dei file di QUESTA macchina.
+# Copia questo file in .claude/perimetro.local (resta fuori da git) e scrivi una
+# cartella per riga. Claude potra' leggere, scrivere e cercare in quelle cartelle
+# oltre che nel repo e in ~/.claude. Le righe che iniziano con # si ignorano.
+# Regola completa: canon/company-rules.md -> "Perimetro dei file".
+#
+# Esempi (togli il # davanti alla riga che ti serve):
+#
+# una cartella di lavoro precisa
+# /Users/<tuo-utente>/Documenti/Lavoro
+#
+# tutta la tua home (Claude apre ogni file che nomini, cartelle privato/ comprese)
+# /Users/<tuo-utente>
+#
+# su Linux la home sta in /home
+# /home/<tuo-utente>
+#
+# dischi esterni e condivisioni
+# /Volumes

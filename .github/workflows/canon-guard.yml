@@ -1,0 +1,48 @@
+name: Canon guard
+
+# Fallisce se un commit NON-merge su main modifica canon/.
+# Il canon si cambia solo via Pull Request (vedi .github/CANON-ENFORCEMENT.md).
+# Per BLOCCARE il push (non solo segnalarlo) serve una regola su GitHub
+# che richieda questo check: vedi CANON-ENFORCEMENT.md.
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  canon-guard:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Verifica che canon/ non sia toccato da push diretti
+        run: |
+          # Confronta la punta precedente con quella nuova.
+          BEFORE="${{ github.event.before }}"
+          AFTER="${{ github.sha }}"
+          if [ -z "$BEFORE" ] || [ "$BEFORE" = "0000000000000000000000000000000000000000" ]; then
+            echo "Nessun before ref, salto."; exit 0
+          fi
+          # I commit di merge sono ammessi (il canon entra via PR mergiata).
+          #
+          # --first-parent e' obbligatorio: senza, il controllo cammina DENTRO i
+          # commit del branch mergiato e boccia proprio la PR che dovrebbe far
+          # passare. Seguendo solo il primo parent, il merge di una PR presenta un
+          # unico commit (il merge stesso, escluso da --no-merges) mentre un push
+          # diretto presenta i suoi commit e viene bloccato. Conseguenza pratica:
+          # il canon entra SOLO con un merge commit. "Squash and merge" e
+          # "Rebase and merge" creano un commit normale su main che tocca canon/,
+          # e il controllo li boccia. E' voluto.
+          changed=""
+          for sha in $(git rev-list --no-merges --first-parent "$BEFORE..$AFTER"); do
+            if git diff-tree --no-commit-id --name-only -r "$sha" | grep -q '^canon/'; then
+              changed="$changed $sha"
+            fi
+          done
+          if [ -n "$changed" ]; then
+            echo "::error::Push diretto su main che modifica canon/. Il canon si cambia solo via PR."
+            echo "Commit non-merge che toccano canon/:$changed"
+            exit 1
+          fi
+          echo "OK: nessun commit diretto tocca canon/."

@@ -1,0 +1,51 @@
+# --- Knowledge base personale ---
+# privato/ e' la knowledge base personale di chi lavora su questa macchina: non
+# deve mai entrare in questo repo ne' nei suoi remote. Non togliere questa riga.
+privato
+
+# --- Roba di sistema ---
+.DS_Store
+**/.DS_Store
+Thumbs.db
+
+# --- Segreti e credenziali (non finiscono MAI in git) ---
+.env
+.env.*
+*.key
+*.pem
+*credentials*
+*secret*
+*.token
+# file di credenziali locali usati dalle skill (es. .claude/<servizio>-tokens.local.md)
+*.local.md
+
+# --- Config per macchina (non si condivide) ---
+.claude/settings.local.json
+**/settings.local.json
+# perimetro dei file di questa macchina (vedi scripts/guard_perimetro.sh)
+.claude/perimetro.local
+
+# --- Cache, temporanei, build ---
+__pycache__/
+*.pyc
+node_modules/
+.venv/
+venv/
+.cache/
+*.log
+*.tmp
+.scratchpad/
+.playwright-cli/
+
+# --- Indici locali rigenerabili ---
+# database e indici che cambiano a ogni sessione: gonfiano la storia e creano
+# conflitti binari
+.context/
+
+# --- Output di lavoro locali ---
+# deliverable binari e pesanti (video, immagini, export) restano sulla macchina:
+# i binari vivono nel loro strumento, non nel repo
+output-locali/
+
+# --- File di scarto ---
+Untitled.md
